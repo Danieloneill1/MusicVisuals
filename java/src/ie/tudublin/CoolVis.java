@@ -1,6 +1,6 @@
 package ie.tudublin;
 
-//import ie.tudublin.*;
+import processing.core.PApplet;
 
 public class CoolVis extends Visual
 {
@@ -9,6 +9,8 @@ public class CoolVis extends Visual
     Spheres Sphere;
     Cones Cone;
     Waves Wave;
+    float x;
+    float y;
 
 
     public void settings()
@@ -19,18 +21,23 @@ public class CoolVis extends Visual
     public void setup()
     {
         startMinim();
+        
+        //loadAudio("heroplanet.mp3");
+        startListening();
+        /*
                 
         // Call loadAudio to load an audio file to process 
         loadAudio("heroplanet.mp3");
-        strokeWeight(2);
+        //strokeWeight(2);
 
-        cube = new Cubes();
+        cube = new Cubes(this);
         Sphere = new Spheres();
         Cone = new Cones();
         Wave = new Waves();
         
         // Controls when each visuals happen
-        Timer timer = new Timer(this);
+        Timer timer = new Timer(this);*/
+        cube = new Cubes(this);
     }
 
     public void keyPressed()
@@ -46,26 +53,17 @@ public class CoolVis extends Visual
     public void draw()
     {
         background(0);
-
-        //calculateAverageAmplitude();
-        
-        if (!timer.running){
-            cube.render();
+        try
+        {
+            // Call this if you want to use FFT data
+            calculateFFT(); 
         }
-
-        if(timer.seconds() < 6){
-            Sphere.render();
+        catch(VisualException e)
+        {
+            e.printStackTrace();
         }
-
-        if (timer.seconds() >= 6 && timer.seconds() <= 13){
-            Cone.render();
-        }
-
-        if (timer.seconds() > 13 && timer.seconds() + 0.5f < 21){
-            Wave.render();
-        }
- 
+        calculateFrequencyBands();
+        cube.render();
     }
 
-    
 }
