@@ -1,14 +1,8 @@
 package ie.tudublin;
 
-import processing.core.PApplet;
-
 public class CoolVis extends Visual
 {
-    public Timer timer;
     Cubes cube;
-    Spheres Sphere;
-    Cones Cone;
-    Waves Wave;
     float x;
     float y;
 
@@ -21,22 +15,10 @@ public class CoolVis extends Visual
     public void setup()
     {
         startMinim();
-        
-        //loadAudio("heroplanet.mp3");
-        startListening();
-        /*
-                
-        // Call loadAudio to load an audio file to process 
-        loadAudio("heroplanet.mp3");
-        //strokeWeight(2);
+        //setFrameSize(256);
+        loadAudio("/Users/danieloneill/Desktop/OOP_Assignment/MusicVisuals/java/data/Bastille - Pompeii (Official Music Video) (256 kbps).mp3");
+        //startListening();
 
-        cube = new Cubes(this);
-        Sphere = new Spheres();
-        Cone = new Cones();
-        Wave = new Waves();
-        
-        // Controls when each visuals happen
-        Timer timer = new Timer(this);*/
         cube = new Cubes(this);
     }
 
@@ -46,7 +28,6 @@ public class CoolVis extends Visual
         {
             getAudioPlayer().cue(0);
             getAudioPlayer().play();
-            timer.start();
         }
     }
 

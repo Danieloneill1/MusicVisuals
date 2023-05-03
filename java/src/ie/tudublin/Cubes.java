@@ -5,34 +5,16 @@ import processing.core.*;
 public class Cubes
 {
     CoolVis cv;
-    float x;
-    float y;
-    float cy = 0;
-    float f = 0;
-    int i = 0;
-    float j = 0;
-    float[] lerpedBuffer;
-    float rotationX = 0;
-    float rotationY = 0;
-    float rotationZ = 0;
-    float targetRotationX = 0;
-    float targetRotationY = 0;
-    float targetRotationZ = 0;
+    
 
     public Cubes(CoolVis cv)
     {
         this.cv = cv;
-        x = this.cv.width;
-        y = this.cv.height;
-        cy = this.cv.height / 2;
-        f = 0;
-        lerpedBuffer = new float[this.cv.width];
     }
 
-    
     public void render()
     {
-        float growthFactor = (float) 0.5;
+        float growthFactor = (float) 0.2;
         float size = 80;
         float rotationFreq = (float) 0.0; //frequency band value for rotation
 
@@ -107,12 +89,18 @@ public class Cubes
             cv.line(Rx4, Ry4, Rx1, Ry1);
             
             
-            cv.pushMatrix();  // save the current transformation matrix
-            cv.translate(centerX, centerY);  // move the origin to the center of the canvas
-            cv.rotate(rotationFreq);  // rotate the canvas around the origin
-            cv.rectMode((int) centerX);
-            cv.rect(0, 0, size, size);  // draw the square centered at the origin
-            cv.popMatrix();  // restore the previous transformation matrix
+            for(int k = 0; k < cv.getSmoothedBands()[k]; k++)
+            {
+                float hue = PApplet.map(cv.getSmoothedAmplitude(), 0, 1, 0, 255);
+                cv.fill(hue, k * 5, k * 5);  // set the fill color based on the frequency
+                cv.pushMatrix();  // save the current transformation matrix
+                cv.translate(centerX, centerY);  // move the origin to the center of the canvas
+                cv.rotate(rotationFreq);  // rotate the canvas around the origin
+                cv.rectMode((int) centerX);
+                cv.rect(0, 0, size, size);  // draw the square centered at the origin
+                cv.popMatrix();  // restore the previous transformation matrix
+            }
+
 
             cv.pushMatrix();  // save the current transformation matrix
             cv.translate(LeftX, LeftY);  // move the origin to the center of the canvas
