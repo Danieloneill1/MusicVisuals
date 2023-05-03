@@ -1,9 +1,5 @@
 package ie.tudublin;
 
-import java.util.Map;
-
-import ddf.minim.analysis.FFT;
-import ddf.minim.ugens.Line;
 import processing.core.*;
 
 public class Cubes
@@ -38,7 +34,6 @@ public class Cubes
     {
         float growthFactor = (float) 0.5;
         float size = 80;
-        float angle = 0;  //rotation angle
         float rotationFreq = (float) 0.0; //frequency band value for rotation
 
         int width = 1024;
@@ -57,12 +52,11 @@ public class Cubes
         
         for(int i = 0; i < 43.07; i++)
         {
-            cv.stroke(PApplet.map(i, 0, cv.getFrameSize(), 0, 255), 255, 255);
+            cv.stroke(PApplet.map(i, 0, cv.getFrameSize(), i * 5, 255), 255, 255);
             // Calculate the new size of the square based on the frequency band
             if (i < cv.getSmoothedBands().length) 
             {
                 size += cv.getSmoothedBands()[i] * growthFactor;
-                angle += 0.2;  // change the rotation speed as needed
             }
 
             if (i < cv.getSmoothedBands().length) 
@@ -97,40 +91,21 @@ public class Cubes
             float Rx4 = RightX - size/2;
             float Ry4 = RightY + size/2;
 
-            //cv.line(i, cy, i, cy + cy * cv.getAudioBuffer().get(i));
-            /*cv.line(x1, y1, x2, y2);
-            cv.line(x2, y2, x3, y3);
-            cv.line(x3, y3, x4, y4);
-            cv.line(x4, y4, x1, y1);
-
-            cv.line(Lx1, Ly1, Lx2, Ly2);
-            cv.line(Lx2, Ly2, Lx3, Ly3);
-            cv.line(Lx3, Ly3, Lx4, Ly4);
-            cv.line(Lx4, Ly4, Lx1, Ly1);
-
-            cv.line(Rx1, Ry1, Rx2, Ry2);
-            cv.line(Rx2, Ry2, Rx3, Ry3);
-            cv.line(Rx3, Ry3, Rx4, Ry4);
-            cv.line(Rx4, Ry4, Rx1, Ry1);*/
-
             cv.line(x1, y1, x2, y2);
             cv.line(x2, y2, x3, y3);
             cv.line(x3, y3, x4, y4);
             cv.line(x4, y4, x1, y1);
 
-            //cv.translate(LeftX - centerX, LeftY - centerY);
-            //cv.rotate(-angle);
             cv.line(Lx1, Ly1, Lx2, Ly2);
             cv.line(Lx2, Ly2, Lx3, Ly3);
             cv.line(Lx3, Ly3, Lx4, Ly4);
             cv.line(Lx4, Ly4, Lx1, Ly1);
 
-            //cv.translate(RightX - LeftX, RightY - LeftY);
-            //cv.rotate(angle);
             cv.line(Rx1, Ry1, Rx2, Ry2);
             cv.line(Rx2, Ry2, Rx3, Ry3);
             cv.line(Rx3, Ry3, Rx4, Ry4);
             cv.line(Rx4, Ry4, Rx1, Ry1);
+            
             
             cv.pushMatrix();  // save the current transformation matrix
             cv.translate(centerX, centerY);  // move the origin to the center of the canvas
@@ -139,9 +114,20 @@ public class Cubes
             cv.rect(0, 0, size, size);  // draw the square centered at the origin
             cv.popMatrix();  // restore the previous transformation matrix
 
+            cv.pushMatrix();  // save the current transformation matrix
+            cv.translate(LeftX, LeftY);  // move the origin to the center of the canvas
+            cv.rotate(rotationFreq);  // rotate the canvas around the origin
+            cv.rectMode((int) centerX);
+            cv.rect(0, 0, size, size);  // draw the square centered at the origin
+            cv.popMatrix();  // restore the previous transformation matrix
 
+            cv.pushMatrix();  // save the current transformation matrix
+            cv.translate(RightX, RightY);  // move the origin to the center of the canvas
+            cv.rotate(rotationFreq);  // rotate the canvas around the origin
+            cv.rectMode((int) centerX);
+            cv.rect(0, 0, size, size);  // draw the square centered at the origin
+            cv.popMatrix();  // restore the previous transformation matrix
         }
             
-        
     }    
 }
